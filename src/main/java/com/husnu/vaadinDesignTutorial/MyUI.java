@@ -8,6 +8,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -24,22 +25,33 @@ public class MyUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        final VerticalLayout layout = new VerticalLayout();
+//        final VerticalLayout layout = new VerticalLayout();
+//        
+//        final TextField name = new TextField();
+//        name.setCaption("Type your name here:");
+//
+//        Button button = new Button("Click Me");
+//        button.addClickListener( e -> {
+//            layout.addComponent(new Label("Thanks " + name.getValue() 
+//                    + ", it works!"));
+//        });
+//        
+//        layout.addComponents(name, button);
+//        layout.setMargin(true);
+//        layout.setSpacing(true);
+//        setContent(layout);
         
-        final TextField name = new TextField();
-        name.setCaption("Type your name here:");
-
-        Button button = new Button("Click Me");
-        button.addClickListener( e -> {
-            layout.addComponent(new Label("Thanks " + name.getValue() 
-                    + ", it works!"));
-        });
-        
-        layout.addComponents(name, button);
-        layout.setMargin(true);
-        layout.setSpacing(true);
-        
-        setContent(layout);
+    	
+    	TextField field = new TextField("Name");
+    	
+    	Button button = new Button("Greet");
+    	
+    	button.addClickListener(e->Notification.show("Hi " + field.getValue()));
+    	
+    	VerticalLayout layout = new VerticalLayout();
+    	layout.addComponents(field,button);
+    	setContent(layout);
+    
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

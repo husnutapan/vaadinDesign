@@ -26,13 +26,24 @@ public class CarService {
 	public List<Car> getCars() {
 		return cars;
 	}
+	
+	public void saveCar(Car car){
+		cars.add(car);
+	}
+	
+	public void deleteCar(Car car){
+		cars.remove(car);
+	}
 
 	public List<Car> getFilterToDataGrid(String filterKeyword) {
-		for (Iterator<Car> it = cars.iterator(); it.hasNext();) {
+		List<Car> carList = getCars();
+		
+		
+		for (Iterator<Car> it = carList.iterator(); it.hasNext();) {
 			if (!it.next().getName().contains(filterKeyword)) {
 				it.remove();
 			}
 		}
-		return cars;
+		return carList;
 	}
 }

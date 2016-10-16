@@ -1,12 +1,17 @@
 package com.husnu.vaadinDesignTutorial;
 
+import java.util.List;
+
 import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.data.util.BeanContainer;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Grid;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
@@ -22,36 +27,18 @@ import com.vaadin.ui.VerticalLayout;
  */
 @Theme("mytheme")
 public class MyUI extends UI {
+	
+	private CarService carService = new CarService();
 
+	private Grid grid = new Grid();
+	
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-//        final VerticalLayout layout = new VerticalLayout();
-//        
-//        final TextField name = new TextField();
-//        name.setCaption("Type your name here:");
-//
-//        Button button = new Button("Click Me");
-//        button.addClickListener( e -> {
-//            layout.addComponent(new Label("Thanks " + name.getValue() 
-//                    + ", it works!"));
-//        });
-//        
-//        layout.addComponents(name, button);
-//        layout.setMargin(true);
-//        layout.setSpacing(true);
-//        setContent(layout);
-        
-    	
-    	TextField field = new TextField("Name");
-    	
-    	Button button = new Button("Greet");
-    	
-    	button.addClickListener(e->Notification.show("Hi " + field.getValue()));
-    	
     	VerticalLayout layout = new VerticalLayout();
-    	layout.addComponents(field,button);
+    	layout.addComponent(grid);
+    	List<Car> cars = carService.getCars();
+    	grid.setContainerDataSource(new BeanItemContainer<>(Car.class,cars));   
     	setContent(layout);
-    
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

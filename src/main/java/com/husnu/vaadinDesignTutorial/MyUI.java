@@ -31,13 +31,25 @@ public class MyUI extends UI {
 	private CarService carService = new CarService();
 
 	private Grid grid = new Grid();
+	private TextField filterText = new TextField("Filter by name");
 	
     @Override
     protected void init(VaadinRequest vaadinRequest) {
     	VerticalLayout layout = new VerticalLayout();
-    	layout.addComponent(grid);
+    	
+    	
+    	filterText.addTextChangeListener(e-> {
+    		grid.setContainerDataSource(new BeanItemContainer<>(Car.class,carService.getFilterToDataGrid(e.getText())));
+    	});
+    	
+    	
+    	layout.addComponents(filterText,grid);
+    	grid.setColumns("id","name","company");
+    	
     	List<Car> cars = carService.getCars();
-    	grid.setContainerDataSource(new BeanItemContainer<>(Car.class,cars));   
+    	grid.setContainerDataSource(new BeanItemContainer<>(Car.class,cars));
+    	layout.setMargin(true);
+    	layout.setSpacing(true);
     	setContent(layout);
     }
 
